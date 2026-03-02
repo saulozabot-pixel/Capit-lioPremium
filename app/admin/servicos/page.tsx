@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import AdminNav from '@/components/AdminNav'
 
 const mockServicos = [
   {
@@ -68,37 +68,7 @@ export default function AdminServicos() {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      {/* Header */}
-      <header className="bg-blue-900 text-white">
-        <div className="container mx-auto px-4 py-6">
-          <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold">Capitólio Premium - Admin</h1>
-            <Link href="/" className="text-blue-200 hover:text-white">
-              Ver Site →
-            </Link>
-          </div>
-        </div>
-      </header>
-
-      {/* Navigation */}
-      <nav className="bg-white shadow-sm">
-        <div className="container mx-auto px-4">
-          <div className="flex gap-8 py-4">
-            <Link href="/admin" className="text-gray-600 hover:text-blue-900">
-              Dashboard
-            </Link>
-            <Link href="/admin/reservas" className="text-gray-600 hover:text-blue-900">
-              Reservas
-            </Link>
-            <Link href="/admin/propriedades" className="text-gray-600 hover:text-blue-900">
-              Propriedades
-            </Link>
-            <Link href="/admin/servicos" className="font-semibold text-blue-900 border-b-2 border-blue-900 pb-2">
-              Serviços
-            </Link>
-          </div>
-        </div>
-      </nav>
+      <AdminNav />
 
       {/* Main Content */}
       <div className="container mx-auto px-4 py-8">

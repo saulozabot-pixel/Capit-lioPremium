@@ -1,0 +1,122 @@
+'use client'
+
+import { useState, useEffect } from 'react'
+import Link from 'next/link'
+
+const slides = [
+  {
+    url: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80',
+    alt: 'Represa de Capitólio - Cânions e Lago'
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=1920&q=80',
+    alt: 'Villa de Luxo com Piscina'
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=1920&q=80',
+    alt: 'Resort com Vista para o Lago'
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=1920&q=80',
+    alt: 'Mansão Exclusiva'
+  },
+]
+
+export default function HeroSlideshow() {
+  const [current, setCurrent] = useState(0)
+  const [loaded, setLoaded] = useState<boolean[]>(new Array(slides.length).fill(false))
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrent(prev => (prev + 1) % slides.length)
+    }, 5000)
+    return () => clearInterval(timer)
+  }, [])
+
+  const handleLoaded = (index: number) => {
+    setLoaded(prev => {
+      const next = [...prev]
+      next[index] = true
+      return next
+    })
+  }
+
+  return (
+    <section className="relative h-screen flex items-center justify-center overflow-hidden">
+      {/* Slides */}
+      {slides.map((slide, index) => (
+        <div
+          key={index}
+          className="absolute inset-0 transition-opacity duration-1000 ease-in-out"
+          style={{ opacity: index === current ? 1 : 0 }}
+        >
+          <img
+            src={slide.url}
+            alt={slide.alt}
+            className="w-full h-full object-cover"
+            onLoad={() => handleLoaded(index)}
+          />
+        </div>
+      ))}
+
+      {/* Overlay com gradiente */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/50 to-black/70"></div>
+
+      {/* Conteúdo */}
+      <div className="relative z-10 text-center text-white px-4 max-w-5xl mx-auto">
+        <p className="text-blue-300 text-lg font-medium mb-4 tracking-widest uppercase">
+          Capitólio, Minas Gerais
+        </p>
+        <h1 className="text-5xl md:text-7xl font-bold mb-6 drop-shadow-lg leading-tight">
+          Viva o Luxo à<br />Beira da Represa
+        </h1>
+        <p className="text-xl md:text-2xl mb-10 max-w-2xl mx-auto drop-shadow text-gray-200">
+          Mansões exclusivas com acesso direto à represa e vista panorâmica dos cânions
+        </p>
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <Link
+            href="/#casas"
+            className="bg-white text-blue-900 px-8 py-4 rounded-full text-lg font-semibold hover:bg-gray-100 transition shadow-lg"
+          >
+            Ver Propriedades
+          </Link>
+          <Link
+            href="/reservar"
+            className="bg-blue-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-blue-700 transition shadow-lg"
+          >
+            Reservar Agora
+          </Link>
+        </div>
+      </div>
+
+      {/* Dots de navegação */}
+      <div className="absolute bottom-8 left-0 right-0 flex justify-center gap-3 z-10">
+        {slides.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setCurrent(index)}
+            className={`transition-all duration-300 rounded-full ${
+              index === current
+                ? 'bg-white w-8 h-3'
+                : 'bg-white/50 w-3 h-3 hover:bg-white/75'
+            }`}
+            aria-label={`Slide ${index + 1}`}
+          />
+        ))}
+      </div>
+
+      {/* Seta para baixo */}
+      <div className="absolute bottom-20 left-0 right-0 flex justify-center z-10">
+        <a
+          href="#casas"
+          className="text-white/70 hover:text-white transition animate-bounce"
+          aria-label="Rolar para baixo"
+        >
+          <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          </svg>
+        </a>
+      </div>
+    </section>
+  )
+}

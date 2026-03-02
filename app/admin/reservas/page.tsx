@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import AdminNav from '@/components/AdminNav'
 
 const mockReservas = [
   {
@@ -71,70 +71,39 @@ const paymentLabels: Record<string, { label: string; className: string }> = {
 export default function AdminReservas() {
   return (
     <div className="min-h-screen bg-gray-100">
-      {/* Header */}
-      <header className="bg-blue-900 text-white">
-        <div className="container mx-auto px-4 py-6">
-          <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold">Capitólio Premium - Admin</h1>
-            <Link href="/" className="text-blue-200 hover:text-white">
-              Ver Site →
-            </Link>
-          </div>
-        </div>
-      </header>
+      <AdminNav />
 
-      {/* Navigation */}
-      <nav className="bg-white shadow-sm">
-        <div className="container mx-auto px-4">
-          <div className="flex gap-8 py-4">
-            <Link href="/admin" className="text-gray-600 hover:text-blue-900">
-              Dashboard
-            </Link>
-            <Link href="/admin/reservas" className="font-semibold text-blue-900 border-b-2 border-blue-900 pb-2">
-              Reservas
-            </Link>
-            <Link href="/admin/propriedades" className="text-gray-600 hover:text-blue-900">
-              Propriedades
-            </Link>
-            <Link href="/admin/servicos" className="text-gray-600 hover:text-blue-900">
-              Serviços
-            </Link>
-          </div>
-        </div>
-      </nav>
-
-      {/* Main Content */}
       <div className="container mx-auto px-4 py-8">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold">Gerenciar Reservas</h2>
+          <h2 className="text-2xl font-bold text-gray-900">Reservas</h2>
           <button className="bg-blue-900 text-white px-6 py-2 rounded-full hover:bg-blue-800 transition text-sm font-semibold">
             + Nova Reserva
           </button>
         </div>
 
-        {/* Stats */}
-        <div className="grid md:grid-cols-4 gap-4 mb-8">
-          <div className="bg-white p-4 rounded-lg shadow text-center">
+        {/* Summary Cards */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+          <div className="bg-white p-4 rounded-xl shadow text-center">
             <p className="text-2xl font-bold text-blue-900">{mockReservas.length}</p>
-            <p className="text-sm text-gray-600">Total</p>
+            <p className="text-gray-500 text-sm">Total</p>
           </div>
-          <div className="bg-white p-4 rounded-lg shadow text-center">
+          <div className="bg-white p-4 rounded-xl shadow text-center">
             <p className="text-2xl font-bold text-green-600">
               {mockReservas.filter(r => r.status === 'confirmed').length}
             </p>
-            <p className="text-sm text-gray-600">Confirmadas</p>
+            <p className="text-gray-500 text-sm">Confirmadas</p>
           </div>
-          <div className="bg-white p-4 rounded-lg shadow text-center">
+          <div className="bg-white p-4 rounded-xl shadow text-center">
             <p className="text-2xl font-bold text-yellow-600">
               {mockReservas.filter(r => r.status === 'pending').length}
             </p>
-            <p className="text-sm text-gray-600">Pendentes</p>
+            <p className="text-gray-500 text-sm">Pendentes</p>
           </div>
-          <div className="bg-white p-4 rounded-lg shadow text-center">
+          <div className="bg-white p-4 rounded-xl shadow text-center">
             <p className="text-2xl font-bold text-purple-600">
               R$ {mockReservas.reduce((acc, r) => acc + r.totalPrice, 0).toLocaleString('pt-BR')}
             </p>
-            <p className="text-sm text-gray-600">Faturamento</p>
+            <p className="text-gray-500 text-sm">Total Faturado</p>
           </div>
         </div>
 
@@ -144,15 +113,15 @@ export default function AdminReservas() {
             <table className="w-full">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="text-left px-6 py-3 text-sm font-semibold text-gray-600">Hóspede</th>
-                  <th className="text-left px-6 py-3 text-sm font-semibold text-gray-600">Propriedade</th>
-                  <th className="text-left px-6 py-3 text-sm font-semibold text-gray-600">Check-in</th>
-                  <th className="text-left px-6 py-3 text-sm font-semibold text-gray-600">Check-out</th>
-                  <th className="text-center px-6 py-3 text-sm font-semibold text-gray-600">Hóspedes</th>
-                  <th className="text-left px-6 py-3 text-sm font-semibold text-gray-600">Valor</th>
-                  <th className="text-left px-6 py-3 text-sm font-semibold text-gray-600">Status</th>
-                  <th className="text-left px-6 py-3 text-sm font-semibold text-gray-600">Pagamento</th>
-                  <th className="text-left px-6 py-3 text-sm font-semibold text-gray-600">Ações</th>
+                  <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Hóspede</th>
+                  <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Propriedade</th>
+                  <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Check-in</th>
+                  <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Check-out</th>
+                  <th className="text-center px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Hóspedes</th>
+                  <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Valor</th>
+                  <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Status</th>
+                  <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Pagamento</th>
+                  <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Ações</th>
                 </tr>
               </thead>
               <tbody>
@@ -160,20 +129,20 @@ export default function AdminReservas() {
                   const status = statusLabels[reserva.status]
                   const payment = paymentLabels[reserva.paymentStatus]
                   return (
-                    <tr key={reserva.id} className={`border-t ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}`}>
+                    <tr key={reserva.id} className={`border-t hover:bg-gray-50 transition ${index % 2 === 0 ? '' : 'bg-gray-50/50'}`}>
                       <td className="px-6 py-4">
-                        <p className="font-semibold">{reserva.guestName}</p>
-                        <p className="text-sm text-gray-500">{reserva.guestEmail}</p>
+                        <p className="font-semibold text-gray-900">{reserva.guestName}</p>
+                        <p className="text-xs text-gray-500">{reserva.guestEmail}</p>
                       </td>
-                      <td className="px-6 py-4 text-sm">{reserva.property}</td>
-                      <td className="px-6 py-4 text-sm">
+                      <td className="px-6 py-4 text-sm text-gray-600">{reserva.property}</td>
+                      <td className="px-6 py-4 text-sm text-gray-600">
                         {new Date(reserva.checkIn).toLocaleDateString('pt-BR')}
                       </td>
-                      <td className="px-6 py-4 text-sm">
+                      <td className="px-6 py-4 text-sm text-gray-600">
                         {new Date(reserva.checkOut).toLocaleDateString('pt-BR')}
                       </td>
-                      <td className="px-6 py-4 text-sm text-center">{reserva.guests}</td>
-                      <td className="px-6 py-4 font-semibold text-sm">
+                      <td className="px-6 py-4 text-sm text-center text-gray-600">{reserva.guests}</td>
+                      <td className="px-6 py-4 font-semibold text-gray-900 text-sm">
                         R$ {reserva.totalPrice.toLocaleString('pt-BR')}
                       </td>
                       <td className="px-6 py-4">
@@ -188,10 +157,10 @@ export default function AdminReservas() {
                       </td>
                       <td className="px-6 py-4">
                         <div className="flex gap-2">
-                          <button className="text-blue-600 hover:text-blue-800 text-sm font-medium">
+                          <button className="text-blue-600 hover:text-blue-800 text-xs font-medium">
                             Ver
                           </button>
-                          <button className="text-green-600 hover:text-green-800 text-sm font-medium">
+                          <button className="text-green-600 hover:text-green-800 text-xs font-medium">
                             Confirmar
                           </button>
                         </div>
