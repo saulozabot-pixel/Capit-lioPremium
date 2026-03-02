@@ -1,0 +1,161 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String?
+  password      String
+  role          String    @default("user") // "admin", "user", "staff"
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  bookings      Booking[]
+}
+
+model Property {
+  id            String    @id @default(cuid())
+  name          String
+  slug          String    @unique
+  description   String    @db.Text
+  shortDesc     String?
+  address       String
+  city          String    @default("Capitólio")
+  state         String    @default("MG")
+  zipCode       String?
+  
+  bedrooms      Int
+  bathrooms     Int
+  maxGuests     Int
+  area          Float?
+  
+  pricePerNight Decimal   @db.Decimal(10, 2)
+  cleaningFee   Decimal?  @db.Decimal(10, 2)
+  
+  amenities     String[]  // Array de comodidades
+  images        String[]  // URLs das imagens
+  featured      Boolean   @default(false)
+  active        Boolean   @default(true)
+  
+  latitude      Float?
+  longitude     Float?
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  bookings      Booking[]
+  reviews       Review[]
+}
+
+model Booking {
+  id            String    @id @default(cuid())
+  userId        String
+  propertyId    String
+  
+  checkIn       DateTime
+  checkOut      DateTime
+  guests        Int
+  
+  totalPrice    Decimal   @db.Decimal(10, 2)
+  status        String    @default("pending") // pending, confirmed, cancelled, completed
+  paymentStatus String    @default("pending") // pending, paid, refunded
+  paymentId     String?   // ID do gateway de pagamento
+  
+  guestName     String
+  guestEmail    String
+  guestPhone    String
+  guestDocument String?
+  
+  notes         String?   @db.Text
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  user          User      @relation(fields: [userId], references: [id])
+  property      Property  @relation(fields: [propertyId], references: [id])
+  services      Service[]
+  
+  @@index([propertyId])
+  @@index([userId])
+  @@index([checkIn])
+}
+
+model Service {
+  id            String    @id @default(cuid())
+  bookingId     String
+  
+  type          String    // "lancha", "jetski", "chef", "other"
+  name          String
+  description   String?
+  price         Decimal   @db.Decimal(10, 2)
+  quantity      Int       @default(1)
+  scheduledFor  DateTime?
+  
+  status        String    @default("pending") // pending, confirmed, completed, cancelled
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  booking       Booking   @relation(fields: [bookingId], references: [id])
+  
+  @@index([bookingId])
+}
+
+model Review {
+  id            String    @id @default(cuid())
+  propertyId    String
+  
+  guestName     String
+  guestEmail    String?
+  
+  rating        Int       // 1-5
+  comment       String    @db.Text
+  approved      Boolean   @default(false)
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  property      Property  @relation(fields: [propertyId], references: [id])
+  
+  @@index([propertyId])
+}
+
+model ContactMessage {
+  id            String    @id @default(cuid())
+  
+  name          String
+  email         String
+  phone         String?
+  subject       String?
+  message       String    @db.Text
+  
+  status        String    @default("new") // new, read, replied
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model ServiceCatalog {
+  id            String    @id @default(cuid())
+  
+  type          String    // "lancha", "jetski", "chef", "transfer", etc
+  name          String
+  description   String    @db.Text
+  price         Decimal   @db.Decimal(10, 2)
+  unit          String    @default("hora") // hora, dia, pessoa, etc
+  image         String?
+  
+  active        Boolean   @default(true)
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}

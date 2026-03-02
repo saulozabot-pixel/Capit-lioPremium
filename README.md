@@ -1,36 +1,131 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+﻿# CapitÃ³lio Premium
 
-## Getting Started
+Site de hospedagem de luxo em CapitÃ³lio/MG
 
-First, run the development server:
+## ðŸ  Sobre o Projeto
 
-```bash
+Plataforma para reserva de mansÃµes de luxo Ã  beira da represa de CapitÃ³lio, com serviÃ§os de concierge incluindo passeios de lancha, jet ski, personal chef e muito mais.
+
+## ðŸš€ Tecnologias
+
+- **Next.js 15** (App Router)
+- **TypeScript**
+- **Tailwind CSS**
+- **Prisma ORM**
+- **PostgreSQL**
+
+## ðŸ“‹ Funcionalidades
+
+### MVP (Atual)
+- âœ… Vitrine de propriedades
+- âœ… Detalhes de cada propriedade
+- âœ… FormulÃ¡rio de reservas
+- âœ… Dashboard administrativo
+- âœ… CatÃ¡logo de serviÃ§os
+- ðŸ”„ IntegraÃ§Ã£o WhatsApp (Em breve)
+- ðŸ”„ Gateway de pagamento (Em breve)
+
+### Futuras
+- Sistema de autenticaÃ§Ã£o completo
+- Painel de gestÃ£o de hÃ³spedes
+- IntegraÃ§Ã£o com Evolution API
+- AutomaÃ§Ã£o com n8n
+- Sistema de pagamentos (Stripe/Mercado Pago)
+- CalendÃ¡rio de disponibilidade
+- Sistema de avaliaÃ§Ãµes
+
+## ðŸ—ï¸ Estrutura do Projeto
+
+\\\
+capitolio-premium/
+â”œâ”€â”€ app/
+â”‚   â”œâ”€â”€ page.tsx              # PÃ¡gina inicial
+â”‚   â”œâ”€â”€ reservar/             # Sistema de reservas
+â”‚   â”œâ”€â”€ propriedades/[slug]/  # Detalhes das propriedades
+â”‚   â””â”€â”€ admin/                # Dashboard administrativo
+â”œâ”€â”€ components/               # Componentes reutilizÃ¡veis
+â”œâ”€â”€ lib/
+â”‚   â”œâ”€â”€ prisma.ts            # Cliente Prisma
+â”‚   â”œâ”€â”€ utils.ts             # FunÃ§Ãµes utilitÃ¡rias
+â”‚   â””â”€â”€ properties-data.ts   # Dados das propriedades
+â”œâ”€â”€ prisma/
+â”‚   â””â”€â”€ schema.prisma        # Schema do banco de dados
+â””â”€â”€ public/
+    â””â”€â”€ images/              # Imagens das propriedades
+\\\
+
+## ðŸ› ï¸ ConfiguraÃ§Ã£o
+
+### PrÃ©-requisitos
+- Node.js 18+
+- PostgreSQL
+- npm ou yarn
+
+### InstalaÃ§Ã£o
+
+1. Clone o repositÃ³rio:
+\\\ash
+git clone <repo-url>
+cd capitolio-premium
+\\\
+
+2. Instale as dependÃªncias:
+\\\ash
+npm install
+\\\
+
+3. Configure as variÃ¡veis de ambiente:
+Copie \.env.local\ e ajuste as configuraÃ§Ãµes
+
+4. Configure o banco de dados:
+\\\ash
+npx prisma migrate dev
+npx prisma generate
+\\\
+
+5. Inicie o servidor de desenvolvimento:
+\\\ash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+\\\
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Acesse: http://localhost:3000
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## ðŸ“¦ Deploy
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Vercel (Recomendado)
 
-## Learn More
+1. Push para GitHub
+2. Conecte o repositÃ³rio na Vercel
+3. Configure as variÃ¡veis de ambiente
+4. Deploy automÃ¡tico!
 
-To learn more about Next.js, take a look at the following resources:
+## ðŸ“¸ Imagens
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+As imagens das propriedades estÃ£o disponÃ­veis no Google Drive:
+- [CapitÃ³lio Premium - Geral](https://drive.google.com/drive/folders/1sU4OfTOzsMBaneJ1mZLM7CPpKSW9Ie2A)
+- [Rancho Ã  Beira da Represa](https://drive.google.com/drive/folders/16yBg2P1VPXMyNIJNBJuRbfhdCGUg0XDx)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Organize as imagens em:
+- \public/images/rancho-beira-represa/\
+- \public/images/casa-proxima/\
+- \public/images/geral/\
 
-## Deploy on Vercel
+## ðŸ” IntegraÃ§Ãµes Futuras
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### WhatsApp (Evolution API + n8n)
+- Atendimento automatizado
+- NotificaÃ§Ãµes de reservas
+- ConfirmaÃ§Ãµes automÃ¡ticas
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Gateway de Pagamento
+- Stripe
+- Mercado Pago
+- Pix
+
+## ðŸ“ LicenÃ§a
+
+Â© 2026 CapitÃ³lio Premium. Todos os direitos reservados.
+
+## ðŸ‘¥ Contato
+
+Email: contato@capitoliopremium.com
