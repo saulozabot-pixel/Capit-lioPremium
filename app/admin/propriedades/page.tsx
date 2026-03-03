@@ -1,9 +1,18 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import { createPortal } from 'react-dom'
 import AdminNav from '@/components/AdminNav'
 import Link from 'next/link'
 import { properties as defaultProperties } from '@/lib/properties-data'
+
+// Portal component - renders children directly in document.body
+function Portal({ children }: { children: React.ReactNode }) {
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => { setMounted(true) }, [])
+  if (!mounted) return null
+  return createPortal(children, document.body)
+}
 
 type Property = {
   id: string
@@ -511,7 +520,8 @@ export default function AdminPropriedades() {
   }
 
   const handleEdit = (property: Property) => {
-    setEditingProperty(property)
+    console.log('[AdminPropriedades] handleEdit chamado:', property.name)
+    setEditingProperty({ ...property })
   }
 
   const handleSaveEdit = (updated: Property) => {
@@ -659,13 +669,13 @@ export default function AdminPropriedades() {
                   </Link>
                   <button
                     onClick={() => handleEdit(property)}
-                    className="flex-1 bg-blue-900 text-white py-2 rounded-full text-sm hover:bg-blue-800 transition font-medium"
+                    className="flex-1 bg-blue-900 text-white py-2 rounded-full text-sm hover:bg-blue-800 transition font-medium cursor-pointer"
                   >
                     ✏️ Editar
                   </button>
                   <button
                     onClick={() => handleDelete(property.id)}
-                    className="bg-red-100 text-red-600 px-3 py-2 rounded-full text-sm hover:bg-red-200 transition"
+                    className="bg-red-100 text-red-600 px-3 py-2 rounded-full text-sm hover:bg-red-200 transition cursor-pointer"
                     title="Remover"
                   >
                     🗑️
@@ -686,7 +696,7 @@ export default function AdminPropriedades() {
               <p className="text-gray-400 text-sm mb-4">Cadastre uma nova mansão no sistema</p>
               <button
                 onClick={e => { e.stopPropagation(); setShowAddModal(true) }}
-                className="bg-blue-900 text-white px-6 py-2 rounded-full text-sm hover:bg-blue-800 transition"
+                className="bg-blue-900 text-white px-6 py-2 rounded-full text-sm hover:bg-blue-800 transition cursor-pointer"
               >
                 Adicionar
               </button>
@@ -695,24 +705,28 @@ export default function AdminPropriedades() {
         </div>
       </div>
 
-      {/* Edit Modal */}
+      {/* Edit Modal - rendered via Portal directly in document.body */}
       {editingProperty && (
-        <PropertyModal
-          property={editingProperty}
-          title={`Editar: ${editingProperty.name}`}
-          onSave={handleSaveEdit}
-          onClose={() => setEditingProperty(null)}
-        />
+        <Portal>
+          <PropertyModal
+            property={editingProperty}
+            title={`Editar: ${editingProperty.name}`}
+            onSave={handleSaveEdit}
+            onClose={() => setEditingProperty(null)}
+          />
+        </Portal>
       )}
 
-      {/* Add Modal */}
+      {/* Add Modal - rendered via Portal directly in document.body */}
       {showAddModal && (
-        <PropertyModal
-          property={emptyProperty()}
-          title="Adicionar Nova Propriedade"
-          onSave={handleAdd}
-          onClose={() => setShowAddModal(false)}
-        />
+        <Portal>
+          <PropertyModal
+            property={emptyProperty()}
+            title="Adicionar Nova Propriedade"
+            onSave={handleAdd}
+            onClose={() => setShowAddModal(false)}
+          />
+        </Portal>
       )}
     </div>
   )
