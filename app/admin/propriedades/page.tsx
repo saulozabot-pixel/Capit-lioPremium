@@ -213,7 +213,7 @@ function PropertyModal({
           {/* Valores */}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-1">Preço por Noite (R$)</label>
+              <label className="block text-sm font-semibold text-gray-700 mb-1">Preço por Pessoa/Noite (R$)</label>
               <input
                 type="number"
                 value={form.pricePerNight}
@@ -623,7 +623,7 @@ export default function AdminPropriedades() {
                   </div>
                   <div className="bg-gray-50 p-2 rounded-lg text-center">
                     <p className="font-bold text-blue-900 text-sm">R$ {(property.pricePerNight / 1000).toFixed(1)}k</p>
-                    <p className="text-xs text-gray-500">/noite</p>
+                    <p className="text-xs text-gray-500">/pessoa/noite</p>
                   </div>
                 </div>
 

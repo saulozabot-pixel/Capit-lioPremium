@@ -158,7 +158,7 @@ export default function HomePage() {
                   </span>
                   <div className="absolute bottom-4 left-4 text-white">
                     <p className="text-2xl font-bold">R$ {property.pricePerNight.toLocaleString('pt-BR')}</p>
-                    <p className="text-sm opacity-80">/noite</p>
+                    <p className="text-sm opacity-80">/pessoa/noite</p>
                   </div>
                 </div>
 
