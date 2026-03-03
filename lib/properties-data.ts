@@ -35,10 +35,10 @@ export const properties = [
       "Vista panorâmica dos cânions"
     ],
     images: [
-      "/images/rancho-beira-represa/exterior-01.jpg",
-      "/images/rancho-beira-represa/vista-represa-01.jpg",
-      "/images/rancho-beira-represa/deck-01.jpg",
-      "/images/rancho-beira-represa/piscina-01.jpg",
+      "https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=1200&q=80",
+      "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=1200&q=80",
+      "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=1200&q=80",
+      "https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=1200&q=80",
     ],
     googleDriveLinks: [
       "https://drive.google.com/drive/folders/1sU4OfTOzsMBaneJ1mZLM7CPpKSW9Ie2A",
@@ -77,8 +77,9 @@ export const properties = [
       "Estacionamento privativo"
     ],
     images: [
-      "/images/casa-proxima/exterior-01.jpg",
-      "/images/casa-proxima/piscina-01.jpg",
+      "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=1200&q=80",
+      "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200&q=80",
+      "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1200&q=80",
     ],
     googleDriveLinks: [
       "https://drive.google.com/drive/folders/16yBg2P1VPXMyNIJNBJuRbfhdCGUg0XDx"
