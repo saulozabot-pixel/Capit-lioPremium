@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { DayPicker } from 'react-day-picker'
+import { DateRange, DayPicker } from 'react-day-picker'
 import { ptBR } from 'date-fns/locale'
 import { parseISO } from 'date-fns'
 import 'react-day-picker/dist/style.css'
@@ -13,9 +13,18 @@ interface OccupiedRange {
 
 interface PropertyCalendarProps {
   slug: string
+  selectedRange?: DateRange
+  onSelectRange?: (range: DateRange | undefined) => void
+  mode?: 'view' | 'range'
+  className?: string
 }
 
-export default function PropertyCalendar({ slug }: PropertyCalendarProps) {
+export default function PropertyCalendar({ 
+  slug, 
+  selectedRange, 
+  onSelectRange, 
+  className = ''
+}: PropertyCalendarProps) {
   const [occupiedRanges, setOccupiedRanges] = useState<OccupiedRange[]>([])
   const [loading, setLoading] = useState(true)
 
@@ -52,7 +61,7 @@ export default function PropertyCalendar({ slug }: PropertyCalendarProps) {
   }
 
   return (
-    <div className="bg-white rounded-xl p-2 border border-blue-50 shadow-sm">
+    <div className={`bg-white rounded-xl p-2 border border-blue-50 shadow-sm ${className}`}>
       <style>{`
         .rdp {
           --rdp-accent-color: #1e3a8a;
@@ -69,8 +78,10 @@ export default function PropertyCalendar({ slug }: PropertyCalendarProps) {
       `}</style>
       <DayPicker
         mode="range"
+        selected={selectedRange}
+        onSelect={onSelectRange}
         locale={ptBR}
-        disabled={disabledDays}
+        disabled={[{ before: new Date() }, ...disabledDays]}
         modifiers={{ occupied: disabledDays }}
         modifiersStyles={{
           occupied: { color: '#94a3b8', textDecoration: 'line-through' }

@@ -1,9 +1,12 @@
-﻿'use client'
+'use client'
 
 import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { properties } from '@/lib/properties-data'
+import PropertyCalendar from '@/components/PropertyCalendar'
+import { DateRange } from 'react-day-picker'
+import { format } from 'date-fns'
 
 function ReservarForm() {
   const searchParams = useSearchParams()
@@ -22,13 +25,27 @@ function ReservarForm() {
     services: [] as string[],
     notes: ''
   })
+  const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined)
 
   // Sync if URL param changes after mount
   useEffect(() => {
     if (propertyParam) {
       setFormData(prev => ({ ...prev, propertyId: propertyParam }))
+      setDateRange(undefined)
     }
   }, [propertyParam])
+
+  useEffect(() => {
+    if (dateRange?.from) {
+      setFormData(prev => ({ 
+        ...prev, 
+        checkIn: format(dateRange.from!, 'yyyy-MM-dd'),
+        checkOut: dateRange.to ? format(dateRange.to, 'yyyy-MM-dd') : ''
+      }))
+    } else {
+      setFormData(prev => ({ ...prev, checkIn: '', checkOut: '' }))
+    }
+  }, [dateRange])
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -128,31 +145,25 @@ function ReservarForm() {
                     </select>
                   </div>
 
-                  <div className="grid md:grid-cols-2 gap-4 mb-6">
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">
-                        Check-in *
-                      </label>
-                      <input
-                        type="date"
-                        value={formData.checkIn}
-                        onChange={(e) => setFormData({ ...formData, checkIn: e.target.value })}
-                        className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        required
+                  <div className="mb-6">
+                    <label className="block text-sm font-semibold text-gray-700 mb-4">
+                      Selecione o Intervalo de Estadia *
+                    </label>
+                    <div className="flex justify-center bg-gray-50 rounded-2xl p-4 border border-gray-100">
+                      <PropertyCalendar 
+                        slug={selectedProperty?.slug || ''} 
+                        mode="range"
+                        selectedRange={dateRange}
+                        onSelectRange={setDateRange}
+                        className="!shadow-none !border-none !bg-transparent"
                       />
                     </div>
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">
-                        Check-out *
-                      </label>
-                      <input
-                        type="date"
-                        value={formData.checkOut}
-                        onChange={(e) => setFormData({ ...formData, checkOut: e.target.value })}
-                        className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        required
-                      />
-                    </div>
+                    {dateRange?.from && (
+                      <p className="mt-4 text-sm text-blue-900 font-medium text-center">
+                        Selecionado: {format(dateRange.from, 'dd/MM/yyyy')} 
+                        {dateRange.to ? ` até ${format(dateRange.to, 'dd/MM/yyyy')}` : ' (selecione o checkout)'}
+                      </p>
+                    )}
                   </div>
 
                   <div className="mb-6">
