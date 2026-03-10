@@ -37,8 +37,8 @@ export async function GET(
     }))
 
     return NextResponse.json(occupiedDates)
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error fetching availability:', error)
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
+    return NextResponse.json({ error: 'Internal Server Error', details: error.message, stack: error.stack }, { status: 500 })
   }
 }
