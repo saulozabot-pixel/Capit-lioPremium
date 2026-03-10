@@ -64,16 +64,29 @@ export default function PropertyCalendar({
     <div className={`bg-white rounded-xl p-2 border border-blue-50 shadow-sm ${className}`}>
       <style>{`
         .rdp {
-          --rdp-accent-color: #1e3a8a;
-          --rdp-background-color: #eff6ff;
+          --rdp-accent-color: #22c55e;
+          --rdp-background-color: #f0fdf4;
           margin: 0;
         }
         .rdp-day_selected, .rdp-day_selected:focus-visible, .rdp-day_selected:hover {
-          background-color: var(--rdp-accent-color);
-          color: white;
+          background-color: var(--rdp-accent-color) !important;
+          color: white !important;
+        }
+        .rdp-day_selected.rdp-day_range_middle {
+          background-color: #dcfce7 !important;
+          color: #166534 !important;
         }
         .rdp-button:hover:not([disabled]):not(.rdp-day_selected) {
           background-color: var(--rdp-background-color);
+        }
+        /* Style for occupied dates */
+        .rdp-day_occupied:not(.rdp-day_selected) {
+          background-color: #fee2e2 !important;
+          color: #991b1b !important;
+          text-decoration: line-through;
+          cursor: not-allowed;
+          opacity: 0.8;
+          border-radius: 4px;
         }
       `}</style>
       <DayPicker
@@ -83,9 +96,6 @@ export default function PropertyCalendar({
         locale={ptBR}
         disabled={[{ before: new Date() }, ...disabledDays]}
         modifiers={{ occupied: disabledDays }}
-        modifiersStyles={{
-          occupied: { color: '#94a3b8', textDecoration: 'line-through' }
-        }}
         showOutsideDays
       />
       <div className="mt-4 px-2 flex items-center gap-4 text-xs text-gray-500">
