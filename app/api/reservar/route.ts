@@ -1,28 +1,56 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { properties as staticProperties } from '@/lib/properties-data'
 
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    const { 
-      propertyId, 
-      checkIn, 
-      checkOut, 
-      guests, 
-      name, 
-      email, 
-      phone, 
+    const {
+      propertyId,
+      checkIn,
+      checkOut,
+      guests,
+      name,
+      email,
+      phone,
       document,
-      notes 
+      notes
     } = body
 
-    // 1. Validar se a propriedade existe
-    const property = await prisma.property.findUnique({
+    // 1. Buscar propriedade no banco; se não existir, auto-criar a partir dos dados estáticos
+    let property = await prisma.property.findUnique({
       where: { id: propertyId }
     })
 
     if (!property) {
-      return NextResponse.json({ error: 'Propriedade não encontrada' }, { status: 404 })
+      const staticProp = staticProperties.find(p => p.id === propertyId || p.slug === propertyId)
+      if (!staticProp) {
+        return NextResponse.json({ error: 'Propriedade não encontrada' }, { status: 404 })
+      }
+      property = await prisma.property.upsert({
+        where: { slug: staticProp.slug },
+        update: {},
+        create: {
+          id: staticProp.id,
+          name: staticProp.name,
+          slug: staticProp.slug,
+          shortDesc: staticProp.shortDesc,
+          description: staticProp.description,
+          address: staticProp.address,
+          city: staticProp.city,
+          state: staticProp.state,
+          bedrooms: staticProp.bedrooms,
+          bathrooms: staticProp.bathrooms,
+          maxGuests: staticProp.maxGuests,
+          area: staticProp.area,
+          pricePerNight: staticProp.pricePerNight,
+          cleaningFee: staticProp.cleaningFee,
+          amenities: staticProp.amenities,
+          images: staticProp.images,
+          featured: staticProp.featured,
+          active: staticProp.active,
+        }
+      })
     }
 
     // 2. Verificar disponibilidade (evitar overbooking no server-side)
